@@ -27,6 +27,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Debug CI context
+        run: |
+          echo "HEAD=$(git rev-parse HEAD)"
+          node -e "const Module=require('module'); console.log('hasCssHook=' + Boolean(Module._extensions && Module._extensions['.css']))"
+
       - name: Run SSG integration test
         env:
           CI: true
@@ -48,6 +53,11 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Debug CI context
+        run: |
+          echo "HEAD=$(git rev-parse HEAD)"
+          node -e "const Module=require('module'); console.log('hasCssHook=' + Boolean(Module._extensions && Module._extensions['.css']))"
 
       - name: Build
         env:

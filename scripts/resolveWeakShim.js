@@ -1,5 +1,13 @@
 // Shim to provide require.resolveWeak and global File for Docusaurus SSR builds
 try {
+  // Helps confirm in CI logs that the shim is actually preloaded via `node -r`.
+  // Keep it short to avoid noisy output.
+  console.error('[resolveWeakShim] loaded');
+} catch (e) {
+  // ignore
+}
+
+try {
   if (typeof require !== 'undefined' && typeof require.resolveWeak !== 'function') {
     Object.defineProperty(require, 'resolveWeak', {
       value: function (id) {
@@ -30,6 +38,20 @@ try {
     require.extensions['.scss'] = stubStylesheet;
     require.extensions['.sass'] = stubStylesheet;
     require.extensions['.less'] = stubStylesheet;
+
+    // Also patch Module._extensions because `module.createRequire()` and other
+    // internal require functions ultimately consult Module._extensions.
+    try {
+      const Module = require('module');
+      if (Module && Module._extensions) {
+        Module._extensions['.css'] = stubStylesheet;
+        Module._extensions['.scss'] = stubStylesheet;
+        Module._extensions['.sass'] = stubStylesheet;
+        Module._extensions['.less'] = stubStylesheet;
+      }
+    } catch (e) {
+      // ignore
+    }
   }
 } catch (e) {
   // ignore
