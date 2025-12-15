@@ -34,3 +34,7 @@ GIT_USER=<your_git_username> npm run deploy
 - blog/：最新公告與更新。
 - src/pages/index.tsx：首頁英雄區、快速導覽、近期焦點。
 - static/：靜態資源（logo）。
+
+---
+
+**CI Test:** Triggering GitHub Actions workflow to verify `build` and `deploy` on 2025-12-15.
