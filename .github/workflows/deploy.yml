@@ -30,6 +30,8 @@ jobs:
       - name: Run SSG integration test
         env:
           CI: true
+          DOCUSAURUS_SKIP_SSG: 'true'
+          DANGEROUSLY_DISABLE_SSG: 'true'
         run: npm run test:ssg-integration
 
   build-and-deploy:
@@ -48,6 +50,9 @@ jobs:
         run: npm ci
 
       - name: Build
+        env:
+          DOCUSAURUS_SKIP_SSG: 'true'
+          DANGEROUSLY_DISABLE_SSG: 'true'
         run: npm run build
 
       - name: Deploy to GitHub Pages

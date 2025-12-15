@@ -131,6 +131,13 @@ try {
   const Module = require('module');
   const origCompile = Module.prototype._compile;
   Module.prototype._compile = function (content, filename) {
+    // Hard-stop: if Node attempts to compile a stylesheet as JS, just stub it.
+    // This covers environments where unknown extensions may fall back to the
+    // default JS loader.
+    if (typeof filename === 'string' && filename.match(/\.(css|scss|sass|less)(?:$|[?#])/i)) {
+      this.exports = '';
+      return;
+    }
     try {
       let s = content;
       if (Buffer.isBuffer(s)) s = s.toString('utf8');

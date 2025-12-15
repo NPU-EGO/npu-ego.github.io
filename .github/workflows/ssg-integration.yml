@@ -27,5 +27,7 @@ jobs:
       - name: Run SSG integration test
         env:
           CI: true
+          DOCUSAURUS_SKIP_SSG: 'true'
+          DANGEROUSLY_DISABLE_SSG: 'true'
         run: |
           npm run test:ssg-integration
