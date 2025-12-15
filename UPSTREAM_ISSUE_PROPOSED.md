@@ -20,7 +20,7 @@ I created a minimal reproduction harness in this repo under `repro/`.
 Steps to reproduce locally:
 
 1. Clone this repo.
-2. Run: `node -r ./scripts/resolveWeakShim.js ./node_modules/.bin/docusaurus build`
+2. Run: `node -r ./scripts/resolveWeakShim.cjs ./node_modules/.bin/docusaurus build`
 3. Observe SSG failing with `require.resolveWeak` TypeError.
 4. There is also `repro/run_repro.cjs` which loads build/__server/server.bundle.js
    into a VM and demonstrates the same sequence of errors.

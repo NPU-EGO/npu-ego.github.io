@@ -20,7 +20,7 @@ npx docusaurus build
 
 ```bash
 # if using the shim used during local experimentation:
-node -r ./scripts/resolveWeakShim.js repro/run_repro.cjs
+node -r ./scripts/resolveWeakShim.cjs repro/run_repro.cjs
 # or without the shim (may fail earlier):
 node repro/run_repro.cjs
 ```

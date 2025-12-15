@@ -25,7 +25,7 @@ If you encounter an SSG runtime error such as `TypeError: require.resolveWeak is
 npm run test:ssg-integration
 ```
 
-This runs a build with SSG disabled and then validates the generated server bundle with the shim (`./scripts/resolveWeakShim.js`).
+This runs a build with SSG disabled and then validates the generated server bundle with the shim (`./scripts/resolveWeakShim.cjs`).
 
 ## 部署到 GitHub Pages
 

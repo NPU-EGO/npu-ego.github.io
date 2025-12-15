@@ -5,9 +5,9 @@
   "type": "module",
   "scripts": {
     "docusaurus": "docusaurus",
-    "start": "DOCUSAURUS_BROWSER=none BROWSER=none NODE_OPTIONS=--require=./scripts/resolveWeakShim.js docusaurus start",
-    "build": "DOCUSAURUS_SKIP_SSG=true DANGEROUSLY_DISABLE_SSG=true NODE_OPTIONS=--require=./scripts/resolveWeakShim.js docusaurus build",
-    "build:ssg": "NODE_OPTIONS=--require=./scripts/resolveWeakShim.js docusaurus build",
+    "start": "DOCUSAURUS_BROWSER=none BROWSER=none NODE_OPTIONS=--require=./scripts/resolveWeakShim.cjs docusaurus start",
+    "build": "DOCUSAURUS_SKIP_SSG=true DANGEROUSLY_DISABLE_SSG=true NODE_OPTIONS=--require=./scripts/resolveWeakShim.cjs docusaurus build",
+    "build:ssg": "NODE_OPTIONS=--require=./scripts/resolveWeakShim.cjs docusaurus build",
     "test:ssg-integration": "node scripts/test_ssg_integration.cjs",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
