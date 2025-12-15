@@ -114,15 +114,18 @@ try {
   const origCompile = Module.prototype._compile;
   Module.prototype._compile = function (content, filename) {
     try {
+      let s = content;
+      if (Buffer.isBuffer(s)) s = s.toString('utf8');
+      
+      // For server bundle: guard resolveWeak calls and strip CSS imports
       if (typeof filename === 'string' && filename.endsWith('server.bundle.js')) {
-        let s = content;
-        if (Buffer.isBuffer(s)) s = s.toString('utf8');
         // guard resolveWeak calls
         s = s.replace(/require\.resolveWeak\s*\(/g, "(typeof require!=='undefined' && typeof require.resolveWeak==='function' ? require.resolveWeak : (function(id){return id;}))(");
         // strip top-level CSS imports which may trigger ESM loaders
         s = s.replace(/(^|\n)\s*import\s+['\"][^'\"\n]+\.css(?:['\"])?\s*;?/g, '\n');
-        content = s;
       }
+      
+      content = s;
     } catch (err) {
       // ignore
     }
@@ -137,6 +140,24 @@ try {
     // to prevent Node from trying to parse raw CSS as JS during SSG evaluation.
     try {
       if (typeof request === 'string') {
+        // Check if request itself is a CSS file (before resolution)
+        if (request.match(/\.css($|[?#])/)) {
+          try {
+            const resolved = Module._resolveFilename(request, parent, isMain);
+            if (!require.cache[resolved]) {
+              const m = new Module(resolved, parent);
+              m.filename = resolved;
+              m.loaded = true;
+              m.exports = '';
+              require.cache[resolved] = m;
+            }
+            return require.cache[resolved].exports;
+          } catch (e) {
+            // If resolution fails, return empty stub anyway
+            return '';
+          }
+        }
+        
         let resolved;
         try {
           resolved = Module._resolveFilename(request, parent, isMain);
@@ -145,6 +166,8 @@ try {
           if (request.match(/\.css($|[?#])/)) {
             return '';
           }
+          // Let the original handler deal with other failures
+          throw e;
         }
         
         if (resolved && typeof resolved === 'string' && resolved.match(/\.css($|[?#])/)) {
@@ -166,7 +189,7 @@ try {
     const exports = origLoad.call(this, request, parent, isMain);
     try {
       if (typeof request === 'string' && request.includes('ssgNodeRequire') && exports && typeof exports.createSSGRequire === 'function') {
-        console.error('[resolveWeakShim] patching', request);
+        console.error('[resolveWeakShim] patching ssgNodeRequire');
         const origCreate = exports.createSSGRequire;
         if (!origCreate.__patched_resolveWeak) {
           exports.createSSGRequire = function () {
@@ -180,6 +203,29 @@ try {
                   return ssgRequire.resolve(id);
                 } catch (e) {
                   return id;
+                }
+              };
+            }
+
+            // Wrap the resolve function to pre-cache CSS files
+            const origResolve = ssgRequire.resolve;
+            if (typeof origResolve === 'function') {
+              ssgRequire.resolve = function(id) {
+                try {
+                  const resolved = origResolve.call(this, id);
+                  // Pre-cache CSS files to prevent Node from parsing them as JS
+                  if (typeof resolved === 'string' && resolved.match(/\.css($|[?#])/)) {
+                    if (!require.cache[resolved]) {
+                      const m = new Module(resolved, parent);
+                      m.filename = resolved;
+                      m.loaded = true;
+                      m.exports = '';
+                      require.cache[resolved] = m;
+                    }
+                  }
+                  return resolved;
+                } catch (e) {
+                  throw e;
                 }
               };
             }
@@ -199,6 +245,10 @@ try {
                 }
                 return origSsgRequire(id);
               } catch (e) {
+                // If it's a CSS file, return empty object silently
+                if (typeof id === 'string' && id.match(/\.css($|[?#])/)) {
+                  return {};
+                }
                 // fallback to stub to keep SSG moving for local testing
                 return {};
               }
