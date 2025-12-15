@@ -40,6 +40,7 @@ function main() {
 </head>
 <body>
   <noscript>Please enable JavaScript to view this site.</noscript>
+  <div id="__docusaurus"></div>
   ${runtimeJs ? `<script src="./assets/js/${runtimeJs}" defer></script>` : ''}
   <script src="./assets/js/${mainJs}" defer></script>
 </body>
@@ -47,6 +48,14 @@ function main() {
 
   fs.writeFileSync(path.join(buildDir, 'index.html'), html, 'utf8');
   console.log('[generate_index_shell] Wrote build/index.html');
+
+  // Also create a 404.html as a SPA fallback for GitHub Pages
+  try {
+    fs.writeFileSync(path.join(buildDir, '404.html'), html, 'utf8');
+    console.log('[generate_index_shell] Wrote build/404.html');
+  } catch (e) {
+    console.warn('[generate_index_shell] Failed to write 404.html:', e.message);
+  }
 }
 
 if (require.main === module) {
