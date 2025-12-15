@@ -5,9 +5,9 @@
   "type": "module",
   "scripts": {
     "docusaurus": "docusaurus",
-    "start": "DOCUSAURUS_BROWSER=none BROWSER=none NODE_OPTIONS=\"--require=./scripts/resolveWeakShim.cjs --experimental-loader=./scripts/esmCssLoader.mjs\" docusaurus start",
-    "build": "DOCUSAURUS_SKIP_SSG=true DANGEROUSLY_DISABLE_SSG=true NODE_OPTIONS=\"--require=./scripts/resolveWeakShim.cjs --experimental-loader=./scripts/esmCssLoader.mjs\" docusaurus build",
-    "build:ssg": "NODE_OPTIONS=\"--require=./scripts/resolveWeakShim.cjs --experimental-loader=./scripts/esmCssLoader.mjs\" docusaurus build",
+    "start": "DOCUSAURUS_BROWSER=none BROWSER=none NODE_OPTIONS=\"--require=./scripts/resolveWeakShim.cjs --import=./scripts/registerEsmCssLoader.mjs\" docusaurus start",
+    "build": "NODE_OPTIONS=\"--require=./scripts/resolveWeakShim.cjs --import=./scripts/registerEsmCssLoader.mjs\" docusaurus build",
+    "build:skip-ssg": "DOCUSAURUS_SKIP_SSG=true DANGEROUSLY_DISABLE_SSG=true NODE_OPTIONS=\"--require=./scripts/resolveWeakShim.cjs --import=./scripts/registerEsmCssLoader.mjs\" docusaurus build",
     "test:ssg-integration": "node scripts/test_ssg_integration.cjs",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",

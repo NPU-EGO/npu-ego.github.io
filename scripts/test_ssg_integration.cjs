@@ -11,7 +11,7 @@ function run(command) {
 
 function main() {
   console.log('Testing build (SSR/SSG disabled)...\n');
-  run('npm run build');
+  run('npm run build:skip-ssg');
   console.log('\n✅ Build integration: PASS');
 }
 
