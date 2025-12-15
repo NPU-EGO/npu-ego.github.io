@@ -16,6 +16,11 @@ if (typeof (globalThis as any).File === 'undefined') {
   (globalThis as any).File = NodeFile;
 }
 
+// Polyfill require.resolveWeak for webpack SSR in Node 18
+if (typeof require !== 'undefined' && !(require as any).resolveWeak) {
+  (require as any).resolveWeak = (id: string) => require.resolve(id);
+}
+
 const config: Config = {
   title: 'EndPoint Guardian Ops',
   tagline: '終端防護攻防隊 · 資安推廣、攻防實作、CTF 培訓',
