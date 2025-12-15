@@ -1,0 +1,66 @@
+.hero {
+  padding: 5rem 0 4rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.kicker {
+  font-size: 0.95rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #7dd3fc;
+  margin-bottom: 0.5rem;
+}
+
+.ctaRow {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+}
+
+.ctaButton {
+  background: linear-gradient(90deg, #38bdf8, #0ea5e9);
+  border: none;
+}
+
+.listReset {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.listItem {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.listItem:last-child {
+  border-bottom: none;
+}
+
+.listTitle {
+  font-weight: 600;
+}
+
+.listMeta {
+  color: #9ca3af;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-top: 0.35rem;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+  background: rgba(125, 211, 252, 0.15);
+  color: #7dd3fc;
+  font-size: 0.8rem;
+}
+
+.cardLink {
+  color: #7dd3fc;
+}

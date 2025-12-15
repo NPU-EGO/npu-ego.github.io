@@ -1,0 +1,7 @@
+{
+  "extends": "@tsconfig/docusaurus/tsconfig.json",
+  "compilerOptions": {
+    "jsx": "react-jsx"
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx", "docs/**/*.ts", "docs/**/*.tsx", "blog/**/*.ts", "blog/**/*.tsx"]
+}
