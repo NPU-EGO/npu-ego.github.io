@@ -132,7 +132,7 @@ try {
   // Also intercept module loads so that when Docusaurus' SSG helper is
   // required we can monkey-patch `createSSGRequire` to provide `resolveWeak`.
   const origLoad = Module._load;
-  Module._load = function (request) {
+  Module._load = function (request, parent, isMain) {
     // If a module request targets a CSS file, return a harmless stub to
     // prevent Node trying to parse raw CSS as JS during SSG evaluation.
     try {
@@ -141,7 +141,7 @@ try {
       }
       // If the resolved path is a CSS file, stub it as well
       try {
-        const resolved = module.constructor._resolveFilename ? module.constructor._resolveFilename(request, module) : require.resolve(request);
+        const resolved = Module._resolveFilename(request, parent, isMain);
         if (typeof resolved === 'string' && resolved.match(/\.css($|[?#])/) ) {
           return '';
         }
@@ -152,7 +152,7 @@ try {
       // ignore
     }
 
-    const exports = origLoad.apply(this, arguments);
+    const exports = origLoad.call(this, request, parent, isMain);
     try {
       if (typeof request === 'string' && request.includes('ssgNodeRequire') && exports && typeof exports.createSSGRequire === 'function') {
         console.error('[resolveWeakShim] patching', request);
