@@ -6,7 +6,7 @@
   "scripts": {
     "docusaurus": "docusaurus",
     "start": "DOCUSAURUS_BROWSER=none BROWSER=none node -r ./scripts/resolveWeakShim.js ./node_modules/.bin/docusaurus start",
-    "build": "DANGEROUSLY_DISABLE_SSG=true node -r ./scripts/resolveWeakShim.js ./node_modules/.bin/docusaurus build",
+    "build": "DOCUSAURUS_SKIP_SSG=true DANGEROUSLY_DISABLE_SSG=true node -r ./scripts/resolveWeakShim.js ./node_modules/.bin/docusaurus build",
     "build:ssg": "node -r ./scripts/resolveWeakShim.js ./node_modules/.bin/docusaurus build",
     "test:ssg-integration": "node scripts/test_ssg_integration.cjs",
     "swizzle": "docusaurus swizzle",
