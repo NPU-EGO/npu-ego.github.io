@@ -27,6 +27,28 @@ try {
   // ignore
 }
 
+// Ensure functions (including webpack's `require`) inherit a `resolveWeak`
+// implementation via the prototype chain. Some bundles call
+// `require.resolveWeak(...)` where `require` is a function.
+try {
+  if (typeof Function !== 'undefined' && typeof Function.prototype.resolveWeak !== 'function') {
+    Object.defineProperty(Function.prototype, 'resolveWeak', {
+      value: function (id) {
+        try {
+          if (typeof this.resolve === 'function') return this.resolve(id);
+          return id;
+        } catch (e) {
+          return id;
+        }
+      },
+      configurable: true,
+      writable: true,
+    });
+  }
+} catch (e) {
+  // ignore
+}
+
 // Make Node's CJS loader tolerant to stylesheets required from server bundles.
 // Without this, requiring a .css file may fall back to JS compilation and crash
 // with a SyntaxError like "Unexpected token ':'".
