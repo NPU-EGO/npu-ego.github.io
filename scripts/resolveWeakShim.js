@@ -133,20 +133,31 @@ try {
   // required we can monkey-patch `createSSGRequire` to provide `resolveWeak`.
   const origLoad = Module._load;
   Module._load = function (request, parent, isMain) {
-    // If a module request targets a CSS file, return a harmless stub to
-    // prevent Node trying to parse raw CSS as JS during SSG evaluation.
+    // If a module request targets a CSS file, pre-seed the cache with a stub
+    // to prevent Node from trying to parse raw CSS as JS during SSG evaluation.
     try {
-      if (typeof request === 'string' && request.match(/\.css($|[?#])/) ) {
-        return '';
-      }
-      // If the resolved path is a CSS file, stub it as well
-      try {
-        const resolved = Module._resolveFilename(request, parent, isMain);
-        if (typeof resolved === 'string' && resolved.match(/\.css($|[?#])/) ) {
-          return '';
+      if (typeof request === 'string') {
+        let resolved;
+        try {
+          resolved = Module._resolveFilename(request, parent, isMain);
+        } catch (e) {
+          // If resolution fails, check the request ID itself
+          if (request.match(/\.css($|[?#])/)) {
+            return '';
+          }
         }
-      } catch (e) {
-        // ignore resolution errors
+        
+        if (resolved && typeof resolved === 'string' && resolved.match(/\.css($|[?#])/)) {
+          // Pre-populate require.cache with a stub to prevent _compile attempt
+          if (!require.cache[resolved]) {
+            const m = new Module(resolved, parent);
+            m.filename = resolved;
+            m.loaded = true;
+            m.exports = '';
+            require.cache[resolved] = m;
+          }
+          return require.cache[resolved].exports;
+        }
       }
     } catch (err) {
       // ignore
