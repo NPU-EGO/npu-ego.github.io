@@ -5,27 +5,29 @@
   "type": "module",
   "scripts": {
     "docusaurus": "docusaurus",
-    "start": "docusaurus start",
-    "build": "docusaurus build",
+    "start": "DOCUSAURUS_BROWSER=none BROWSER=none node -r ./scripts/resolveWeakShim.js ./node_modules/.bin/docusaurus start",
+    "build": "DANGEROUSLY_DISABLE_SSG=true node -r ./scripts/resolveWeakShim.js ./node_modules/.bin/docusaurus build",
+    "build:ssg": "node -r ./scripts/resolveWeakShim.js ./node_modules/.bin/docusaurus build",
+    "test:ssg-integration": "node scripts/test_ssg_integration.cjs",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
     "serve": "docusaurus serve"
   },
   "dependencies": {
-    "@docusaurus/core": "3.4.0",
-    "@docusaurus/preset-classic": "3.4.0",
-    "@docusaurus/theme-classic": "3.4.0",
-    "@docusaurus/remark-plugin-npm2yarn": "3.4.0",
+    "@docusaurus/core": "^3.9.2",
+    "@docusaurus/preset-classic": "^3.9.2",
+    "@docusaurus/remark-plugin-npm2yarn": "^3.9.2",
+    "@docusaurus/theme-classic": "^3.9.2",
     "clsx": "^2.1.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
+    "@docusaurus/module-type-aliases": "^3.9.2",
     "@tsconfig/docusaurus": "^2.0.0",
-    "@docusaurus/module-type-aliases": "3.4.0",
     "typescript": "^5.4.5"
   },
   "engines": {
-    "node": ">=20.0"
+    "node": ">=18.0"
   }
 }

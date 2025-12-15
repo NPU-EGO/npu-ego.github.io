@@ -2,7 +2,7 @@ import type {Config} from '@docusaurus/types';
 import {themes as prismThemes} from 'prism-react-renderer';
 import {Blob} from 'buffer';
 
-// Polyfill File for Node build environment (GitHub Actions runner)
+// Polyfills for Node build environment (File + require.resolveWeak)
 if (typeof (globalThis as any).File === 'undefined') {
   class NodeFile extends Blob {
     name: string;
@@ -16,9 +16,14 @@ if (typeof (globalThis as any).File === 'undefined') {
   (globalThis as any).File = NodeFile;
 }
 
-// Polyfill require.resolveWeak for webpack SSR in Node 18
-if (typeof require !== 'undefined' && !(require as any).resolveWeak) {
-  (require as any).resolveWeak = (id: string) => require.resolve(id);
+if (typeof require !== 'undefined' && typeof (require as any).resolveWeak !== 'function') {
+  (require as any).resolveWeak = (id: string) => {
+    try {
+      return require.resolve(id);
+    } catch (e) {
+      return id;
+    }
+  };
 }
 
 const config: Config = {
@@ -32,7 +37,11 @@ const config: Config = {
   deploymentBranch: 'gh-pages',
   trailingSlash: false,
   onBrokenLinks: 'warn',
-  onBrokenMarkdownLinks: 'warn',
+  markdown: {
+    hooks: {
+      onBrokenMarkdownLinks: 'warn',
+    },
+  },
   i18n: {
     defaultLocale: 'zh-TW',
     locales: ['zh-TW'],
@@ -50,6 +59,7 @@ const config: Config = {
           blogTitle: '最新公告',
           blogDescription: '社團公告與活動更新',
           showReadingTime: true,
+          onUntruncatedBlogPosts: 'ignore',
         },
         theme: {
           customCss: './src/css/custom.css',

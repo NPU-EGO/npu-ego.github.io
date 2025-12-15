@@ -3,3 +3,18 @@ node_modules
 build
 .DS_Store
 .env.local
+
+# Ignore this repository's generated and editor files
+.docusaurus/
+.vscode/
+.idea/
+*.log
+npm-debug.log*
+yarn-debug.log*
+.cache/
+coverage/
+dist/
+.env
+.env.*
+.sass-cache/
+useless.file
