@@ -192,73 +192,65 @@ try {
         console.error('[resolveWeakShim] patching ssgNodeRequire');
         const origCreate = exports.createSSGRequire;
         if (!origCreate.__patched_resolveWeak) {
-          exports.createSSGRequire = function () {
-            console.error('[resolveWeakShim] createSSGRequire called');
+          exports.createSSGRequire = function (serverBundlePath) {
+            console.error('[resolveWeakShim] createSSGRequire called with', serverBundlePath);
             const ssgRequire = origCreate.apply(this, arguments);
-
+            
+            // Wrap the ssgRequire function itself to intercept CSS before it's required
+            const origSsgRequire = ssgRequire;
+            const wrappedSsgRequire = function(id) {
+              try {
+                if (typeof id === 'string') {
+                  // Pre-check if this is a CSS file
+                  if (id.match(/\.css($|[?#])/i)) {
+                    console.error('[resolveWeakShim] blocking CSS require:', id);
+                    return '';
+                  }
+                  // Try to resolve to check extension
+                  try {
+                    const resolved = origSsgRequire.resolve(id);
+                    if (typeof resolved === 'string' && resolved.match(/\.css($|[?#])/i)) {
+                      console.error('[resolveWeakShim] blocking resolved CSS:', resolved);
+                      return '';
+                    }
+                  } catch (e) {
+                    // ignore resolution errors
+                  }
+                }
+              } catch (e) {
+                // ignore
+              }
+              
+              try {
+                return origSsgRequire(id);
+              } catch (e) {
+                // If require fails and it looks like a CSS error, return stub
+                if (typeof id === 'string' && (id.match(/\.css/i) || (e && e.message && e.message.includes('.css')))) {
+                  console.error('[resolveWeakShim] caught CSS error for', id, 'returning empty stub');
+                  return '';
+                }
+                throw e;
+              }
+            };
+            
+            // Copy over properties
+            wrappedSsgRequire.resolve = origSsgRequire.resolve;
+            wrappedSsgRequire.cache = origSsgRequire.cache;
+            wrappedSsgRequire.extensions = origSsgRequire.extensions;
+            wrappedSsgRequire.main = origSsgRequire.main;
+            
             // Provide a safe `resolveWeak` fallback.
-            if (typeof ssgRequire.resolveWeak !== 'function') {
-              ssgRequire.resolveWeak = function (id) {
+            if (typeof wrappedSsgRequire.resolveWeak !== 'function') {
+              wrappedSsgRequire.resolveWeak = function (id) {
                 try {
-                  return ssgRequire.resolve(id);
+                  return wrappedSsgRequire.resolve(id);
                 } catch (e) {
                   return id;
                 }
               };
             }
 
-            // Wrap the resolve function to pre-cache CSS files
-            const origResolve = ssgRequire.resolve;
-            if (typeof origResolve === 'function') {
-              ssgRequire.resolve = function(id) {
-                try {
-                  const resolved = origResolve.call(this, id);
-                  // Pre-cache CSS files to prevent Node from parsing them as JS
-                  if (typeof resolved === 'string' && resolved.match(/\.css($|[?#])/)) {
-                    if (!require.cache[resolved]) {
-                      const m = new Module(resolved, parent);
-                      m.filename = resolved;
-                      m.loaded = true;
-                      m.exports = '';
-                      require.cache[resolved] = m;
-                    }
-                  }
-                  return resolved;
-                } catch (e) {
-                  throw e;
-                }
-              };
-            }
-
-            // Guard common virtual IDs to avoid MODULE_NOT_FOUND during SSG.
-            const origSsgRequire = ssgRequire.bind ? ssgRequire.bind(this) : ssgRequire;
-            function guardedRequire(id) {
-              try {
-                if (typeof id === 'string') {
-                  if (id.startsWith('@theme/') || id.startsWith('@site/') || id.startsWith('@generated/')) {
-                    // Best-effort stub for theme/site virtual modules used during SSG.
-                    return {};
-                  }
-                  if (id.match(/\.css($|[?#])/)) {
-                    return {};
-                  }
-                }
-                return origSsgRequire(id);
-              } catch (e) {
-                // If it's a CSS file, return empty object silently
-                if (typeof id === 'string' && id.match(/\.css($|[?#])/)) {
-                  return {};
-                }
-                // fallback to stub to keep SSG moving for local testing
-                return {};
-              }
-            }
-            // Copy helper props
-            guardedRequire.resolve = ssgRequire.resolve ? ssgRequire.resolve.bind(ssgRequire) : undefined;
-            guardedRequire.resolveWeak = ssgRequire.resolveWeak ? ssgRequire.resolveWeak.bind(ssgRequire) : undefined;
-            guardedRequire.cache = ssgRequire.cache;
-
-            return guardedRequire;
+            return wrappedSsgRequire;
           };
           exports.createSSGRequire.__patched_resolveWeak = true;
         }
@@ -270,6 +262,47 @@ try {
   };
 } catch (e) {
   // ignore
+}
+
+// Patch eval module (used by ssgRenderer) to intercept server bundle evaluation
+try {
+  const evalModule = require('eval');
+  if (evalModule && typeof evalModule === 'function') {
+    const origEval = evalModule;
+    const wrappedEval = function(source, filename, options) {
+      try {
+        let s = source;
+        if (typeof s === 'string') {
+          // Strip CSS imports that may trigger parsing errors
+          s = s.replace(/(^|\n)\s*import\s+['\"][^'\"\n]+\.css(?:['\"])?\s*;?/g, '\n');
+          // Guard resolveWeak calls
+          s = s.replace(/require\.resolveWeak\s*\(/g, "(typeof require!=='undefined' && typeof require.resolveWeak==='function' ? require.resolveWeak : (function(id){return id;}))(");
+        }
+        return origEval.call(this, s, filename, options);
+      } catch (e) {
+        // Check if this is a CSS parsing error
+        if (e && (e.message && e.message.includes('.css') || e.stack && e.stack.includes('.css'))) {
+          console.error('[resolveWeakShim] Caught CSS evaluation error, trying to recover...');
+          // Try again with CSS stripped
+          try {
+            let s = source;
+            if (typeof s === 'string') {
+              // More aggressive CSS stripping
+              s = s.replace(/(^|\n)\s*(?:import|require)\s*\(\s*['\"][^'\"\n]*\.css['\"][^)]*\)/g, '\n');
+              s = s.replace(/(^|\n)\s*import\s+['\"][^'\"\n]+\.css(?:['\"])?\s*;?/g, '\n');
+            }
+            return origEval.call(this, s, filename, options);
+          } catch (e2) {
+            throw e; // throw original error if recovery fails
+          }
+        }
+        throw e;
+      }
+    };
+    require.cache[require.resolve('eval')].exports = wrappedEval;
+  }
+} catch (e) {
+  // ignore if eval module not available
 }
 
 try {
