@@ -17,6 +17,16 @@ npm run build
 
 輸出會在 build/ 目錄。
 
+## Troubleshooting
+
+If you encounter an SSG runtime error such as `TypeError: require.resolveWeak is not a function`, use the provided test helper which preloads a shim and evaluates the server bundle locally:
+
+```bash
+npm run test:ssg-integration
+```
+
+This runs a build with SSG disabled and then validates the generated server bundle with the shim (`./scripts/resolveWeakShim.js`).
+
 ## 部署到 GitHub Pages
 
 本倉庫為 user/org site，baseUrl 設為 `/`。

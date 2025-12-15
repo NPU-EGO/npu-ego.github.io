@@ -24,9 +24,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build and run SSG integration test
+      - name: Run SSG integration test
         env:
           CI: true
         run: |
-          npm run build:ssg
           npm run test:ssg-integration
