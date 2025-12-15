@@ -16,6 +16,24 @@ try {
 } catch (e) {
   // ignore
 }
+
+// Make Node's CJS loader tolerant to stylesheets required from server bundles.
+// Without this, requiring a .css file may fall back to JS compilation and crash
+// with a SyntaxError like "Unexpected token ':'".
+try {
+  if (typeof require !== 'undefined' && require.extensions) {
+    const stubStylesheet = function (module) {
+      module.exports = '';
+    };
+    // Keep it minimal and cover the common stylesheet extensions used by Docusaurus.
+    require.extensions['.css'] = stubStylesheet;
+    require.extensions['.scss'] = stubStylesheet;
+    require.extensions['.sass'] = stubStylesheet;
+    require.extensions['.less'] = stubStylesheet;
+  }
+} catch (e) {
+  // ignore
+}
 // Ensure functions (including webpack's `require`) inherit a `resolveWeak`
 // implementation via the prototype chain to avoid TypeError when bundles
 // call `require.resolveWeak(...)` on a locally-scoped `require` function.
