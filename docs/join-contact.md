@@ -14,9 +14,9 @@ sidebar_label: 加入我們 / 聯絡
 
 ## 聯絡與社群
 - Email：`ego@example.edu.tw`
-- Discord：<https://discord.gg/placeholder>
-- Instagram：<https://instagram.com/>
-- Facebook：<https://facebook.com/>
+- Discord：[https://discord.gg/placeholder](https://discord.gg/placeholder)
+- Instagram：[https://instagram.com/](https://instagram.com/)
+- Facebook：[https://facebook.com/](https://facebook.com/)
 
 ## 我能參加嗎？
 - 對資安、攻防、網路系統、程式設計有興趣的本校學生皆可加入。
