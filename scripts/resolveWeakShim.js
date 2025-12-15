@@ -1,8 +1,8 @@
 // Shim to provide require.resolveWeak and global File for Docusaurus SSR builds
 try {
-  // Helps confirm in CI logs that the shim is actually preloaded via `node -r`.
-  // Keep it short to avoid noisy output.
-  console.error('[resolveWeakShim] loaded');
+  // Helps confirm in CI logs that the shim is actually preloaded.
+  // Docusaurus may spawn multiple node processes; include pid for clarity.
+  console.error(`[resolveWeakShim] loaded pid=${process.pid}`);
 } catch (e) {
   // ignore
 }
@@ -48,6 +48,35 @@ try {
         Module._extensions['.scss'] = stubStylesheet;
         Module._extensions['.sass'] = stubStylesheet;
         Module._extensions['.less'] = stubStylesheet;
+
+        // Extra hardening: if, for any reason, Node falls back to the default
+        // `.js` loader for a stylesheet file, short-circuit before parsing.
+        const origJsLoader = Module._extensions['.js'];
+        if (typeof origJsLoader === 'function' && !origJsLoader.__patched_stylesheet_fallback) {
+          const patchedJsLoader = function (module, filename) {
+            if (typeof filename === 'string' && filename.match(/\.(css|scss|sass|less)(?:$|[?#])/i)) {
+              module.exports = '';
+              return;
+            }
+            return origJsLoader(module, filename);
+          };
+          patchedJsLoader.__patched_stylesheet_fallback = true;
+          Module._extensions['.js'] = patchedJsLoader;
+          // Keep require.extensions in sync if it exists
+          try {
+            if (require.extensions) require.extensions['.js'] = patchedJsLoader;
+          } catch (e) {
+            // ignore
+          }
+        }
+
+        try {
+          console.error(
+            `[resolveWeakShim] hooks pid=${process.pid} cssExt=${Boolean(Module._extensions['.css'])} jsFallback=${Boolean(Module._extensions['.js'] && Module._extensions['.js'].__patched_stylesheet_fallback)}`
+          );
+        } catch (e) {
+          // ignore
+        }
       }
     } catch (e) {
       // ignore
