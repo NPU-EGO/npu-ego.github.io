@@ -37,6 +37,7 @@ const config: Config = {
   deploymentBranch: 'gh-pages',
   trailingSlash: false,
   onBrokenLinks: 'warn',
+  ssrTemplate: undefined,
   markdown: {
     hooks: {
       onBrokenMarkdownLinks: 'warn',
