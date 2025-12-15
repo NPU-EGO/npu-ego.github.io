@@ -1,5 +1,20 @@
 import type {Config} from '@docusaurus/types';
 import {themes as prismThemes} from 'prism-react-renderer';
+import {Blob} from 'buffer';
+
+// Polyfill File for Node build environment (GitHub Actions runner)
+if (typeof (globalThis as any).File === 'undefined') {
+  class NodeFile extends Blob {
+    name: string;
+    lastModified: number;
+    constructor(parts: any[], name: string, options: any = {}) {
+      super(parts, options);
+      this.name = name;
+      this.lastModified = options.lastModified ?? Date.now();
+    }
+  }
+  (globalThis as any).File = NodeFile;
+}
 
 const config: Config = {
   title: 'EndPoint Guardian Ops',
