@@ -125,6 +125,9 @@ const config: Config = {
       darkTheme: prismThemes.dracula,
     },
   },
+  future: {
+    experimental_router: 'hash',
+  },
 };
 
 export default config;

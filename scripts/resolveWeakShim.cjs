@@ -4,20 +4,28 @@
 try {
   // Helps confirm in CI logs that the shim is actually preloaded.
   // Docusaurus may spawn multiple node processes; include pid for clarity.
-  console.error(`[resolveWeakShim] loaded pid=${process.pid}`);
+  const skip = process.env.DOCUSAURUS_SKIP_SSG;
+  const importArgv = (process.execArgv || []).filter((a) => a === '--import' || a.startsWith('--import='));
+  console.error(
+    `[resolveWeakShim] loaded pid=${process.pid} DOCUSAURUS_SKIP_SSG=${skip ?? 'undefined'} importArgv=${importArgv.length ? importArgv.join(',') : 'none'}`
+  );
 } catch (e) {
   // ignore
 }
+
+// Note: we intentionally do NOT try to resolve Docusaurus virtual aliases like
+// @theme/* or @site/* to source files here.
+// Those files can contain JSX/TSX and are expected to be bundled/transpiled by
+// the Docusaurus server bundle during build/SSG.
 
 try {
   if (typeof require !== 'undefined' && typeof require.resolveWeak !== 'function') {
     Object.defineProperty(require, 'resolveWeak', {
       value: function (id) {
-        try {
-          return require.resolve(id);
-        } catch (e) {
-          return id;
-        }
+        // In a real webpack runtime, this returns an internal module id.
+        // In plain Node, returning a path/id can cause Node to try executing
+        // untranspiled JSX/TSX modules. Keep it as a harmless no-op.
+        return undefined;
       },
       configurable: true,
       writable: true,
@@ -34,12 +42,8 @@ try {
   if (typeof Function !== 'undefined' && typeof Function.prototype.resolveWeak !== 'function') {
     Object.defineProperty(Function.prototype, 'resolveWeak', {
       value: function (id) {
-        try {
-          if (typeof this.resolve === 'function') return this.resolve(id);
-          return id;
-        } catch (e) {
-          return id;
-        }
+        // No-op fallback for bundles that call require.resolveWeak().
+        return undefined;
       },
       configurable: true,
       writable: true,
@@ -113,13 +117,31 @@ try {
 try {
   const Module = require('module');
   const origCompile = Module.prototype._compile;
+  const loggedCompileFailures = new Set();
   Module.prototype._compile = function (content, filename) {
     // Hard-stop: if Node attempts to compile a stylesheet as JS, just stub it.
     if (typeof filename === 'string' && filename.match(/\.(css|scss|sass|less)(?:$|[?#])/i)) {
       this.exports = '';
       return;
     }
-    return origCompile.call(this, content, filename);
+    try {
+      return origCompile.call(this, content, filename);
+    } catch (e) {
+      try {
+        const message = e && e.message ? String(e.message) : '';
+        if (
+          typeof filename === 'string' &&
+          message.includes("Unexpected token '<'") &&
+          !loggedCompileFailures.has(filename)
+        ) {
+          loggedCompileFailures.add(filename);
+          console.error(`[resolveWeakShim] compile failed: ${filename}`);
+        }
+      } catch (logErr) {
+        // ignore
+      }
+      throw e;
+    }
   };
 } catch (e) {
   // ignore
