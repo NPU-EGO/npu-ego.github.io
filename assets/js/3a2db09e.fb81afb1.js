@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunknpu_ego_github_io=self.webpackChunknpu_ego_github_io||[]).push([[121],{8070:e=>{e.exports=JSON.parse('{"tags":[{"label":"\u516c\u544a","permalink":"/blog/tags/\u516c\u544a","count":1},{"label":"\u5165\u793e","permalink":"/blog/tags/\u5165\u793e","count":1}]}')}}]);

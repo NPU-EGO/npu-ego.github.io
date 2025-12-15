@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunknpu_ego_github_io=self.webpackChunknpu_ego_github_io||[]).push([[146],{9328:e=>{e.exports=JSON.parse('{"metadata":{"permalink":"/blog","page":1,"postsPerPage":10,"totalPages":1,"totalCount":1,"blogDescription":"\u793e\u5718\u516c\u544a\u8207\u6d3b\u52d5\u66f4\u65b0","blogTitle":"\u6700\u65b0\u516c\u544a"}}')}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunknpu_ego_github_io=self.webpackChunknpu_ego_github_io||[]).push([[472],{5513:e=>{e.exports=JSON.parse('{"title":"Recent posts","items":[{"title":"\u6b61\u8fce\u52a0\u5165\u7d42\u7aef\u9632\u8b77\u653b\u9632\u968a","permalink":"/blog/welcome","unlisted":false,"date":"2025-01-01T00:00:00.000Z"}]}')}}]);
