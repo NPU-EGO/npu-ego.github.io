@@ -41,6 +41,49 @@ function main() {
 <body>
   <noscript>Please enable JavaScript to view this site.</noscript>
   <div id="__docusaurus"></div>
+  <script>
+    // Lightweight browser shim to avoid raw CommonJS require calls left in bundle
+    (function(){
+      try {
+        if (typeof window !== 'undefined' && typeof window.require !== 'function') {
+          window.module = window.module || { exports: {} };
+          window.exports = window.exports || window.module.exports;
+          window.require = function(spec) {
+            try {
+              // Ignore stylesheet imports
+              if (/\.(css|scss|sass|less)$/i.test(spec)) return {};
+              // Ignore Docusaurus theme client-side modules we don't need for hash routing bootstrap
+              if (spec && (
+                spec.includes('@docusaurus/theme-classic/lib/prism-include-languages') ||
+                spec.includes('@docusaurus/theme-classic/lib/nprogress') ||
+                spec.includes('nprogress')
+              )) {
+                return {};
+              }
+            } catch (e) {
+              // swallow
+            }
+            return {};
+          };
+        }
+      } catch (e) {
+        // ignore
+      }
+    })();
+  </script>
+  <script>
+    (function(){
+      try {
+        // Ensure Hash Router has a base path
+        if (!location.hash) {
+          var base = location.pathname.replace(/index\.html$/, '');
+          location.replace(base + '#/');
+        }
+      } catch (e) {
+        // ignore
+      }
+    })();
+  </script>
   ${runtimeJs ? `<script src="./assets/js/${runtimeJs}" defer></script>` : ''}
   <script src="./assets/js/${mainJs}" defer></script>
 </body>
