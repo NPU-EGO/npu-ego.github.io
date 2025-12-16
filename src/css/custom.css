@@ -1,54 +1,92 @@
+/**
+ * Any CSS included here will be global. The classic template
+ * bundles Infima by default. Infima is a CSS framework designed to
+ * work well for content-centric websites.
+ */
+
+/* Main Font - Optional: Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600;700&display=swap');
+
 :root {
-  --ifm-color-primary: #7dd3fc;
-  --ifm-color-primary-dark: #38bdf8;
-  --ifm-color-primary-darker: #0ea5e9;
-  --ifm-color-primary-darkest: #0284c7;
-  --ifm-color-primary-light: #bae6fd;
-  --ifm-color-primary-lighter: #e0f2fe;
-  --ifm-color-primary-lightest: #f0f9ff;
-  --ifm-font-family-base: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --ifm-font-family-base: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  --ifm-font-family-monospace: 'JetBrains Mono', SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+  /* Cybersecurity Green Palette - Light Mode (Less aggressive, still readable) */
+  --ifm-color-primary: #008a4b;
+  --ifm-color-primary-dark: #007c43;
+  --ifm-color-primary-darker: #00753f;
+  --ifm-color-primary-darkest: #006134;
+  --ifm-color-primary-light: #009853;
+  --ifm-color-primary-lighter: #009f57;
+  --ifm-color-primary-lightest: #00b462;
   --ifm-code-font-size: 95%;
-  --ifm-background-color: #0f172a;
-  --ifm-background-surface-color: #111827;
-  --ifm-navbar-background-color: #0b1220;
-  --ifm-footer-background-color: #0b1220;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
 }
 
-html[data-theme='dark'] {
-  --ifm-background-color: #0f172a;
-  --ifm-background-surface-color: #111827;
+/* Dark Mode - The Real Cyber Experience */
+[data-theme='dark'] {
+  --ifm-color-primary: #00ff88;
+  /* Neon Green */
+  --ifm-color-primary-dark: #00e67a;
+  --ifm-color-primary-darker: #00d973;
+  --ifm-color-primary-darkest: #00b35f;
+  --ifm-color-primary-light: #1aff94;
+  --ifm-color-primary-lighter: #26ff9a;
+  --ifm-color-primary-lightest: #4dffad;
+
+  --ifm-background-color: #0d1117;
+  /* GitHub Dark Dimmed / Cyber Dark */
+  --ifm-background-surface-color: #161b22;
+
+  --docusaurus-highlighted-code-line-bg: rgba(0, 255, 136, 0.1);
 }
 
-.hero--dark {
-  background: radial-gradient(circle at 20% 20%, rgba(125, 211, 252, 0.12), transparent 35%),
-    radial-gradient(circle at 80% 30%, rgba(125, 211, 252, 0.08), transparent 40%),
-    #0f172a;
-  color: #e5e7eb;
+/* Global improvements */
+.hero {
+  text-align: center;
 }
 
-.hero__subtitle {
-  color: #cbd5e1;
+.button--secondary {
+  --ifm-button-background-color: var(--ifm-color-primary);
+  --ifm-button-color: #000;
+  --ifm-button-border-color: var(--ifm-color-primary);
+  font-weight: bold;
 }
 
-.quick-links {
-  display: grid;
-  gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+.button--secondary:hover {
+  --ifm-button-background-color: var(--ifm-color-primary-light);
+  --ifm-button-border-color: var(--ifm-color-primary-light);
 }
 
-.quick-card {
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: #111827;
-  padding: 1rem;
+.button--outline.button--secondary {
+  --ifm-button-background-color: transparent;
+  --ifm-button-color: var(--ifm-color-primary);
+  --ifm-button-border-color: var(--ifm-color-primary);
+}
+
+.button--outline.button--secondary:hover {
+  --ifm-button-background-color: var(--ifm-color-primary);
+  --ifm-button-color: #000;
+}
+
+/* Card Styling Enhancements */
+.card {
   border-radius: 12px;
-  transition: border-color 160ms ease, transform 160ms ease;
+  border: 1px solid var(--ifm-color-emphasis-200);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
-.quick-card:hover {
-  border-color: rgba(125, 211, 252, 0.6);
-  transform: translateY(-2px);
+[data-theme='dark'] .card {
+  background-color: #161b22;
+  border-color: #30363d;
 }
 
-.section-muted {
-  color: #cbd5e1;
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  border-color: var(--ifm-color-primary);
+}
+
+[data-theme='dark'] .card:hover {
+  box-shadow: 0 8px 16px rgba(0, 255, 136, 0.15);
 }

@@ -1,34 +1,47 @@
 {
-  "name": "npu-ego-github-io",
-  "version": "0.0.1",
+  "name": "my-website",
+  "version": "0.0.0",
   "private": true,
-  "type": "module",
   "scripts": {
     "docusaurus": "docusaurus",
-    "start": "DOCUSAURUS_BROWSER=none BROWSER=none NODE_OPTIONS=\"--require=./scripts/resolveWeakShim.cjs --import=./scripts/registerEsmCssLoader.mjs\" docusaurus start",
-    "build": "DOCUSAURUS_SKIP_SSG=true DANGEROUSLY_DISABLE_SSG=true NODE_OPTIONS=\"--require=./scripts/resolveWeakShim.cjs --import=./scripts/registerEsmCssLoader.mjs\" docusaurus build && node ./scripts/generate_index_shell.cjs",
-    "build:skip-ssg": "DOCUSAURUS_SKIP_SSG=true DANGEROUSLY_DISABLE_SSG=true NODE_OPTIONS=\"--require=./scripts/resolveWeakShim.cjs --import=./scripts/registerEsmCssLoader.mjs\" docusaurus build",
-    "test:ssg-integration": "node scripts/test_ssg_integration.cjs",
+    "start": "docusaurus start",
+    "build": "docusaurus build",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
-    "serve": "docusaurus serve"
+    "clear": "docusaurus clear",
+    "serve": "docusaurus serve",
+    "write-translations": "docusaurus write-translations",
+    "write-heading-ids": "docusaurus write-heading-ids",
+    "typecheck": "tsc"
   },
   "dependencies": {
-    "@docusaurus/core": "^3.9.2",
-    "@docusaurus/preset-classic": "^3.9.2",
-    "@docusaurus/remark-plugin-npm2yarn": "^3.9.2",
-    "@docusaurus/theme-classic": "^3.9.2",
-    "@theme/prism-include-languages": "file:./packages/prism-include-languages",
-    "clsx": "^2.1.1",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "@docusaurus/core": "3.9.2",
+    "@docusaurus/preset-classic": "3.9.2",
+    "@mdx-js/react": "^3.0.0",
+    "clsx": "^2.0.0",
+    "prism-react-renderer": "^2.3.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "^3.9.2",
-    "@tsconfig/docusaurus": "^2.0.0",
-    "typescript": "^5.4.5"
+    "@docusaurus/module-type-aliases": "3.9.2",
+    "@docusaurus/tsconfig": "3.9.2",
+    "@docusaurus/types": "3.9.2",
+    "typescript": "~5.6.2"
+  },
+  "browserslist": {
+    "production": [
+      ">0.5%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 3 chrome version",
+      "last 3 firefox version",
+      "last 5 safari version"
+    ]
   },
   "engines": {
-    "node": ">=18.0"
+    "node": ">=20.0"
   }
 }
