@@ -1,50 +1,56 @@
-# EndPoint Guardian Ops · Docusaurus Site
+# EGO 資安攻防隊 (EndPoint Guardian Ops)
 
-Docusaurus v3 site for the EndPoint Guardian Ops（終端防護攻防隊）社團。內容涵蓋關於我們、幹部、社團活動、最新公告（Blog）、社團章程，以及加入/聯絡資訊。
+終端防護攻防隊官方網站，使用 [Docusaurus](https://docusaurus.io/) 建立。
 
-## 開發
+## 本地開發
+
+### 安裝依賴
 
 ```bash
 npm install
-npm run start   # 本機啟動，預設 http://localhost:3000
 ```
 
-## 建置
+### 啟動開發伺服器
+
+```bash
+npm start
+```
+
+此命令會啟動本地開發伺服器並自動開啟瀏覽器。大部分的修改都會即時反映，無需重新啟動伺服器。
+
+### 建置
 
 ```bash
 npm run build
 ```
 
-輸出會在 build/ 目錄。
-
-## Troubleshooting
-
-If you encounter an SSG runtime error such as `TypeError: require.resolveWeak is not a function`, use the provided test helper which preloads a shim and evaluates the server bundle locally:
-
-```bash
-npm run test:ssg-integration
-```
-
-This runs a build with SSG disabled and then validates the generated server bundle with the shim (`./scripts/resolveWeakShim.cjs`).
+此命令會將靜態內容生成到 `build` 目錄，可以使用任何靜態內容託管服務來提供服務。
 
 ## 部署到 GitHub Pages
 
-本倉庫為 user/org site，baseUrl 設為 `/`。
+本專案已配置 GitHub Actions 自動部署。當你推送到 `main` 分支時，網站會自動建置並部署到 GitHub Pages。
 
-```bash
-GIT_USER=<your_git_username> npm run deploy
-```
+### 首次設定 GitHub Pages
 
-- 預設推送到 gh-pages 分支（可在 docusaurus.config.ts 調整 deploymentBranch）。
-- GitHub Pages 設定需指向該分支。
-- 已提供 GitHub Actions 工作流程：`.github/workflows/deploy.yml`（push main 會自動 build + deploy）。
+1. 前往 GitHub 倉庫的 **Settings** > **Pages**
+2. 在 **Source** 下選擇 **GitHub Actions**
+3. 推送到 `main` 分支即可觸發自動部署
 
-## 結構
-- docs/：主要內容（關於、幹部、活動、公告總覽、章程、加入/聯絡）。
-- blog/：最新公告與更新。
-- src/pages/index.tsx：首頁英雄區、快速導覽、近期焦點。
-- static/：靜態資源（logo）。
+### 手動觸發部署
 
----
+你也可以在 GitHub 倉庫的 **Actions** 頁面手動觸發 "Deploy to GitHub Pages" 工作流程。
 
-**CI Test:** Triggering GitHub Actions workflow to verify `build` and `deploy` on 2025-12-15.
+## 網站結構
+
+- `src/pages/` - 自訂頁面（首頁、關於我們、活動等）
+- `blog/` - 最新公告與部落格文章
+- `docs/` - 文件頁面
+- `static/` - 靜態資源（圖片、favicon 等）
+- `src/css/` - 自訂樣式
+
+## 技術棧
+
+- **框架**: Docusaurus 3.9.2
+- **語言**: TypeScript, React
+- **部署**: GitHub Pages (自動化 CI/CD)
+- **主題**: 自訂深色模式與網路安全風格

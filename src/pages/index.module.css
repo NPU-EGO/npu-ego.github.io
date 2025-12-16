@@ -1,66 +1,103 @@
-.hero {
-  padding: 5rem 0 4rem;
+/**
+ * CSS files with the .module.css suffix will be treated as CSS modules
+ * and scoped locally.
+ */
+
+.heroBanner {
+  padding: 8rem 0;
+  text-align: center;
   position: relative;
   overflow: hidden;
+  background: radial-gradient(circle at center, rgba(0, 255, 136, 0.15) 0%, transparent 70%);
 }
 
-.kicker {
-  font-size: 0.95rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #7dd3fc;
-  margin-bottom: 0.5rem;
+.heroDescription {
+  font-size: 1.25rem;
+  max-width: 600px;
+  margin: 1.5rem auto 2.5rem;
+  opacity: 0.8;
 }
 
-.ctaRow {
+@media screen and (max-width: 996px) {
+  .heroBanner {
+    padding: 4rem 2rem;
+  }
+}
+
+.buttons {
   display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-  margin-top: 1.5rem;
+  align-items: center;
+  justify-content: center;
 }
 
-.ctaButton {
-  background: linear-gradient(90deg, #38bdf8, #0ea5e9);
-  border: none;
+/* Sections */
+.section {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
 }
 
-.listReset {
+.recentFocusSection {
+  background: var(--ifm-color-emphasis-100);
+}
+
+[data-theme='dark'] .recentFocusSection {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* Navigation Cards */
+.navCard {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  text-decoration: none !important;
+  /* Docusaurus links might have underline */
+  color: inherit !important;
+}
+
+.navCard h3 {
+  margin-bottom: 0.5rem;
+  color: var(--ifm-color-primary);
+}
+
+/* Focus List */
+.focusList {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.listItem {
-  padding: 0.75rem 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.listItem:last-child {
-  border-bottom: none;
-}
-
-.listTitle {
-  font-weight: 600;
-}
-
-.listMeta {
-  color: #9ca3af;
+.focusItem {
   display: flex;
-  gap: 0.5rem;
-  align-items: center;
-  margin-top: 0.35rem;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  align-items: flex-start;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
 }
 
-.tag {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.1rem 0.45rem;
+.focusItem:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.focusTag {
+  background: var(--ifm-color-emphasis-200);
+  padding: 0.25rem 0.75rem;
   border-radius: 999px;
-  background: rgba(125, 211, 252, 0.15);
-  color: #7dd3fc;
   font-size: 0.8rem;
+  font-weight: bold;
+  white-space: nowrap;
+  color: var(--ifm-font-color-base);
 }
 
-.cardLink {
-  color: #7dd3fc;
+[data-theme='dark'] .focusTag {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.focusTag:hover {
+  background: var(--ifm-color-primary);
+  color: #000;
 }

@@ -1,75 +1,69 @@
-import type {Config} from '@docusaurus/types';
-import {themes as prismThemes} from 'prism-react-renderer';
-import {Blob} from 'buffer';
+import { themes as prismThemes } from 'prism-react-renderer';
+import type { Config } from '@docusaurus/types';
+import type * as Preset from '@docusaurus/preset-classic';
 
-// Polyfills for Node build environment (File + require.resolveWeak)
-if (typeof (globalThis as any).File === 'undefined') {
-  class NodeFile extends Blob {
-    name: string;
-    lastModified: number;
-    constructor(parts: any[], name: string, options: any = {}) {
-      super(parts, options);
-      this.name = name;
-      this.lastModified = options.lastModified ?? Date.now();
-    }
-  }
-  (globalThis as any).File = NodeFile;
-}
-
-if (typeof require !== 'undefined' && typeof (require as any).resolveWeak !== 'function') {
-  (require as any).resolveWeak = (id: string) => {
-    try {
-      return require.resolve(id);
-    } catch (e) {
-      return id;
-    }
-  };
-}
+// This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
 const config: Config = {
   title: 'EndPoint Guardian Ops',
-  tagline: '終端防護攻防隊 · 資安推廣、攻防實作、CTF 培訓',
-  favicon: 'img/logo.svg',
+  tagline: '終端防護攻防隊',
+  favicon: 'img/favicon.ico',
+
+  // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
+  future: {
+    v4: true, // Improve compatibility with the upcoming Docusaurus v4
+  },
+
+  // Set the production url of your site here
   url: 'https://npu-ego.github.io',
+  // Set the /<baseUrl>/ pathname under which your site is served
+  // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/',
-  organizationName: 'NPU-EGO',
-  projectName: 'npu-ego.github.io',
-  deploymentBranch: 'gh-pages',
-  trailingSlash: false,
-  onBrokenLinks: 'warn',
-  ssrTemplate: undefined,
-  markdown: {
-    hooks: {
-      onBrokenMarkdownLinks: 'warn',
-    },
-  },
+
+  // GitHub pages deployment config.
+  // If you aren't using GitHub pages, you don't need these.
+  organizationName: 'NPU-EGO', // Usually your GitHub org/user name.
+  projectName: 'npu-ego.github.io', // Usually your repo name.
+
+  onBrokenLinks: 'throw',
+
+  // Even if you don't use internationalization, you can use this field to set
+  // useful metadata like html lang. For example, if your site is Chinese, you
+  // may want to replace "en" with "zh-Hans".
   i18n: {
-    defaultLocale: 'zh-TW',
-    locales: ['zh-TW'],
+    defaultLocale: 'zh-Hant',
+    locales: ['zh-Hant'],
   },
+
   presets: [
     [
       'classic',
       {
         docs: {
           sidebarPath: './sidebars.ts',
-          routeBasePath: 'docs',
         },
         blog: {
-          routeBasePath: 'blog',
-          blogTitle: '最新公告',
-          blogDescription: '社團公告與活動更新',
           showReadingTime: true,
-          onUntruncatedBlogPosts: 'ignore',
+          feedOptions: {
+            type: ['rss', 'atom'],
+            xslt: true,
+          },
         },
         theme: {
           customCss: './src/css/custom.css',
         },
-      },
+      } satisfies Preset.Options,
     ],
   ],
+
   themeConfig: {
-    image: 'img/logo.svg',
+    // Replace with your project's social card
+    image: 'img/docusaurus-social-card.jpg',
+    colorMode: {
+      defaultMode: 'dark',
+      disableSwitch: false,
+      respectPrefersColorScheme: true,
+    },
     navbar: {
       title: 'EGO 資安攻防隊',
       logo: {
@@ -77,12 +71,16 @@ const config: Config = {
         src: 'img/logo.svg',
       },
       items: [
-        {to: '/docs/about', label: '關於我們', position: 'left'},
-        {to: '/docs/activities', label: '社團活動', position: 'left'},
-        {to: '/blog', label: '最新公告', position: 'left'},
-        {to: '/docs/constitution', label: '社團章程', position: 'left'},
-        {to: '/docs/join-contact', label: '加入/聯絡', position: 'left'},
-        {href: 'https://github.com/NPU-EGO', label: 'GitHub', position: 'right'},
+        { to: '/about', label: '關於我們', position: 'left' },
+        { to: '/blog', label: '最新公告', position: 'left' },
+        { to: '/activities', label: '社團活動', position: 'left' },
+        { to: '/bylaws', label: '社團章程', position: 'left' },
+        { to: '/join', label: '加入/聯絡', position: 'left' },
+        {
+          href: 'https://github.com/NPU-EGO',
+          label: 'GitHub',
+          position: 'right',
+        },
       ],
     },
     footer: {
@@ -91,43 +89,62 @@ const config: Config = {
         {
           title: '導覽',
           items: [
-            {label: '關於我們', to: '/docs/about'},
-            {label: '社團活動', to: '/docs/activities'},
-            {label: '最新公告', to: '/blog'},
-            {label: '社團章程', to: '/docs/constitution'},
+            {
+              label: '關於我們',
+              to: '/about',
+            },
+            {
+              label: '社團活動',
+              to: '/activities',
+            },
+            {
+              label: '最新公告',
+              to: '/blog',
+            },
+            {
+              label: '社團章程',
+              to: '/bylaws',
+            },
           ],
         },
         {
-          title: '加入我們',
+          title: '加入/聯絡',
           items: [
-            {label: '加入/聯絡', to: '/docs/join-contact'},
-            {label: 'Email', href: 'mailto:ego@example.edu.tw'},
-            {label: 'Discord', href: 'https://discord.gg/placeholder'},
+            {
+              label: 'Email',
+              href: 'mailto:contact@example.com',
+            },
+            {
+              label: 'Discord',
+              href: '#',
+            },
           ],
         },
         {
           title: '社群',
           items: [
-            {label: 'GitHub', href: 'https://github.com/NPU-EGO'},
-            {label: 'Instagram', href: 'https://instagram.com/'},
-            {label: 'Facebook', href: 'https://facebook.com/'},
+            {
+              label: 'GitHub',
+              href: 'https://github.com/NPU-EGO',
+            },
+            {
+              label: 'Instagram',
+              href: '#',
+            },
+            {
+              label: 'Facebook',
+              href: '#',
+            },
           ],
         },
       ],
       copyright: `© ${new Date().getFullYear()} EndPoint Guardian Ops. 保留所有權利。`,
     },
-    colorMode: {
-      defaultMode: 'dark',
-      respectPrefersColorScheme: true,
-    },
     prism: {
-      theme: prismThemes.dracula,
+      theme: prismThemes.github,
       darkTheme: prismThemes.dracula,
     },
-  },
-  future: {
-    experimental_router: 'hash',
-  },
+  } satisfies Preset.ThemeConfig,
 };
 
 export default config;
