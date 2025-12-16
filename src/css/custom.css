@@ -11,34 +11,85 @@
   --ifm-font-family-base: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
   --ifm-font-family-monospace: 'JetBrains Mono', SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 
-  /* Cybersecurity Green Palette - Light Mode (Less aggressive, still readable) */
-  --ifm-color-primary: #008a4b;
-  --ifm-color-primary-dark: #007c43;
-  --ifm-color-primary-darker: #00753f;
-  --ifm-color-primary-darkest: #006134;
-  --ifm-color-primary-light: #009853;
-  --ifm-color-primary-lighter: #009f57;
-  --ifm-color-primary-lightest: #00b462;
+  /* Light Mode Colors */
+  --ifm-color-primary: #00b359;
+  --ifm-color-primary-dark: #00a050;
+  --ifm-color-primary-darker: #00964b;
+  --ifm-color-primary-darkest: #007c3e;
+  --ifm-color-primary-light: #00c662;
+  --ifm-color-primary-lighter: #00d067;
+  --ifm-color-primary-lightest: #00e676;
   --ifm-code-font-size: 95%;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+  --docusaurus-highlighted-code-line-bg: rgba(0, 230, 118, 0.1);
 }
 
-/* Dark Mode - The Real Cyber Experience */
+/* Dark Mode - EGO Color Palette */
 [data-theme='dark'] {
-  --ifm-color-primary: #00ff88;
-  /* Neon Green */
-  --ifm-color-primary-dark: #00e67a;
-  --ifm-color-primary-darker: #00d973;
-  --ifm-color-primary-darkest: #00b35f;
-  --ifm-color-primary-light: #1aff94;
-  --ifm-color-primary-lighter: #26ff9a;
-  --ifm-color-primary-lightest: #4dffad;
+  /* Accent Green */
+  --ifm-color-primary: #00E676;
+  --ifm-color-primary-dark: #00d06a;
+  --ifm-color-primary-darker: #00c464;
+  --ifm-color-primary-darkest: #00a253;
+  --ifm-color-primary-light: #1ae982;
+  --ifm-color-primary-lighter: #26eb88;
+  --ifm-color-primary-lightest: #4dff9f;
 
-  --ifm-background-color: #0d1117;
-  /* GitHub Dark Dimmed / Cyber Dark */
-  --ifm-background-surface-color: #161b22;
+  /* Backgrounds */
+  --ifm-background-color: #0E1116;
+  /* Main Background */
+  --ifm-background-surface-color: #151A21;
+  /* Card Background */
 
-  --docusaurus-highlighted-code-line-bg: rgba(0, 255, 136, 0.1);
+  /* Text Colors */
+  --ifm-font-color-base: #E6E6E6;
+  /* Primary Text */
+  --ifm-color-content-secondary: #9AA0A6;
+  /* Muted Text */
+
+  /* Code highlighting */
+  --docusaurus-highlighted-code-line-bg: rgba(0, 230, 118, 0.1);
+
+  /* Navbar */
+  --ifm-navbar-background-color: #0E1116;
+  --ifm-navbar-shadow: 0 1px 2px 0 rgba(0, 230, 118, 0.1);
+
+  /* Footer */
+  --ifm-footer-background-color: #0E1116;
+
+  /* Emphasis colors */
+  --ifm-color-emphasis-100: #151A21;
+  --ifm-color-emphasis-200: #1f2429;
+  --ifm-color-emphasis-300: #2d333b;
+  --ifm-color-emphasis-400: #444c56;
+  --ifm-color-emphasis-600: #768390;
+  --ifm-color-emphasis-700: #9AA0A6;
+  --ifm-color-emphasis-800: #adbac7;
+  --ifm-color-emphasis-900: #cdd9e5;
+
+  /* Link colors */
+  --ifm-link-color: #00E676;
+  --ifm-link-hover-color: #1ae982;
+
+  /* Hero text colors */
+  --ifm-hero-text-color: #E6E6E6;
+}
+
+/* Hero section text visibility */
+.hero__title {
+  color: #1a1a1a !important;
+}
+
+.hero__subtitle {
+  color: #2d2d2d !important;
+  opacity: 1;
+}
+
+[data-theme='dark'] .hero__title {
+  color: #E6E6E6 !important;
+}
+
+[data-theme='dark'] .hero__subtitle {
+  color: #E6E6E6 !important;
 }
 
 /* Global improvements */
@@ -77,8 +128,9 @@
 }
 
 [data-theme='dark'] .card {
-  background-color: #161b22;
-  border-color: #30363d;
+  background-color: #151A21;
+  /* Card Background */
+  border-color: #2d333b;
 }
 
 .card:hover {
@@ -88,5 +140,38 @@
 }
 
 [data-theme='dark'] .card:hover {
-  box-shadow: 0 8px 16px rgba(0, 255, 136, 0.15);
+  box-shadow: 0 8px 16px rgba(0, 230, 118, 0.2);
+  border-color: #00E676;
+}
+
+/* Info/Admonition boxes */
+[data-theme='dark'] .alert--info {
+  background-color: #0F3D1F;
+  /* Green Info Box */
+  border-left-color: #00E676;
+}
+
+/* Code blocks */
+[data-theme='dark'] div[class^='codeBlockContainer'] {
+  background-color: #151A21;
+  border: 1px solid #2d333b;
+}
+
+/* Scrollbar styling for dark mode */
+[data-theme='dark'] ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+[data-theme='dark'] ::-webkit-scrollbar-track {
+  background: #0E1116;
+}
+
+[data-theme='dark'] ::-webkit-scrollbar-thumb {
+  background: #2d333b;
+  border-radius: 4px;
+}
+
+[data-theme='dark'] ::-webkit-scrollbar-thumb:hover {
+  background: #00E676;
 }

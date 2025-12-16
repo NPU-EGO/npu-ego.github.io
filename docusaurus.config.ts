@@ -137,6 +137,19 @@ const config: Config = {
             },
           ],
         },
+        {
+          title: '相關連結',
+          items: [
+            {
+              label: '澎科大資工',
+              href: 'https://csie.npu.edu.tw',
+            },
+            {
+              label: '澎科大',
+              href: 'https://www.npu.edu.tw',
+            },
+          ],
+        },
       ],
       copyright: `© ${new Date().getFullYear()} EndPoint Guardian Ops. 保留所有權利。`,
     },
