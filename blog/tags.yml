@@ -17,3 +17,19 @@ hola:
   label: Hola
   permalink: /hola
   description: Hola tag description
+
+公告:
+  label: 公告
+  permalink: /announcement
+  description: 社團公告與通知
+
+會議:
+  label: 會議
+  permalink: /meeting
+  description: 會議相關資訊
+
+NPU-EGO:
+  label: NPU-EGO
+  permalink: /npu-ego
+  description: NPU-EGO 社團相關
+
