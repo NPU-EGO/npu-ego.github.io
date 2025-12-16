@@ -8,14 +8,26 @@
   text-align: center;
   position: relative;
   overflow: hidden;
-  background: radial-gradient(circle at center, rgba(0, 255, 136, 0.15) 0%, transparent 70%);
+  background: radial-gradient(circle at center, rgba(0, 230, 118, 0.08) 0%, transparent 70%);
+}
+
+[data-theme='dark'] .heroBanner {
+  background: radial-gradient(circle at center, rgba(0, 230, 118, 0.12) 0%, transparent 70%);
 }
 
 .heroDescription {
   font-size: 1.25rem;
   max-width: 600px;
   margin: 1.5rem auto 2.5rem;
-  opacity: 0.8;
+  color: #2d2d2d;
+  /* Dark text for light mode */
+  opacity: 1;
+}
+
+[data-theme='dark'] .heroDescription {
+  color: #E6E6E6;
+  /* Light text for dark mode */
+  opacity: 0.95;
 }
 
 @media screen and (max-width: 996px) {
