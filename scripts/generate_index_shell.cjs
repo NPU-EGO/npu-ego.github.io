@@ -65,6 +65,14 @@ function main() {
             }
             return {};
           };
+          // Provide resolveWeak to satisfy bundled references
+          window.require.resolveWeak = function(_spec){ try { return 0; } catch (e) { return 0; } };
+          // Provide resolve as a passthrough
+          window.require.resolve = function(spec){ return String(spec || ''); };
+          // Some bundles may call Function.prototype.resolveWeak
+          if (typeof Function.prototype.resolveWeak !== 'function') {
+            Function.prototype.resolveWeak = function(){ return 0; };
+          }
         }
       } catch (e) {
         // ignore
