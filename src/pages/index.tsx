@@ -23,12 +23,7 @@ function HomepageHeader() {
           <Link
             className="button button--secondary button--lg"
             to="/join">
-            加入我們
-          </Link>
-          <Link
-            className="button button--outline button--secondary button--lg margin-left--md"
-            to="/activities">
-            查看課程與活動
+            邀請參加社團成立大會 12/30 17:30~18:30
           </Link>
         </div>
       </div>
