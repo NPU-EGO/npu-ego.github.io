@@ -5,7 +5,7 @@
 ## 近期活動
 
 ### CTF 基礎技 (訓練) 
-*   **時間**: 每週二 19:00) ~ 20:00
+*   **時間**: 每週二 19:00 ~ 20:00
 *   **地點**: (19:00~19:30) 資工系電腦教室
 *   **內容**: Web Exploitation, Cryptography 基礎入門。
 
@@ -22,5 +22,6 @@
 *   Binary Exploitation
 *   Digital Forensics
 *   Cryptography
+*   生成式 AI 在資安攻防中的應用
 
 歡迎隨時關注我們的[最新公告](/blog)！
