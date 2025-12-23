@@ -6,7 +6,7 @@
 
 **時間**：2025年12月30日（週二）17:30 - 18:30  
 **地點**：多功能教室 
-**報名表單**：[點此填寫報名表](https://forms.gle/your-form-link)
+**報名表單**：[點此填寫報名表](https://docs.google.com/forms/d/e/1FAIpQLSdHFzBMO23I4r1pk4EF5QjN9WmXPT6j-5bL2keGNhrwzuCiOA/viewform?usp=header)
 
 :::tip 立即報名!!
 名額有限，請儘早填寫報名表！
@@ -33,9 +33,8 @@
 
 ## 如何加入？
 
-1.  填寫線上報名表：[報名連結](#) (範例)
-2.  繳交社費：每學期 300 元。
-3.  加入 Discord 伺服器：[Discord 連結](#)
+1.  繳交社費：每學期 300 元。
+2.  加入 Discord 伺服器：[Discord 連結](#)
 
 ## 聯絡我們
 
