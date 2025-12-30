@@ -1,6 +1,6 @@
-n# EGO 資安攻防隊 (EndPoint Guardian Ops)
+# IEEE NPU-EGO 資安攻防隊 (終端防護攻防隊)
 
-終端防護攻防隊官方網站，使用 [Docusaurus](https://docusaurus.io/) 建立。 
+IEEE NPU-EGO 終端防護攻防隊官方網站，使用 [Docusaurus](https://docusaurus.io/) 建立。 
 
 ## 本地開發
 

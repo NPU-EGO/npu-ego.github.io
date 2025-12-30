@@ -142,7 +142,7 @@ export default function Home(): ReactNode {
   return (
     <Layout
       title={siteConfig.title}
-      description="EndPoint Guardian Ops - 終端防護攻防隊">
+      description="IEEE NPU-EGO - 終端防護攻防隊">
       <HomepageHeader />
       <main>
         <QuickNav />

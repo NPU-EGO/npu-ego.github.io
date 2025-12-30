@@ -1,9 +1,9 @@
-# EndPoint Guardian Ops 組織章程
+# IEEE NPU-EGO 組織章程
 
 ## 第一章　總則
 
 ### 第一條（社團名稱）
-本社團定名為**「EndPoint Guardian Ops（終端防護攻防隊）」**（以下簡稱本社）。
+本社團定名為**「IEEE NPU-EGO - 終端防護攻防隊（EndPoint Guardian Ops）」**（以下簡稱本社）。
 
 ### 第二條（宗旨）
 本社以推廣資安知識、強化資訊安全防護能力、培養攻防實作技能、參與各類 CTF（Capture The Flag）競賽與資安訓練為宗旨。
