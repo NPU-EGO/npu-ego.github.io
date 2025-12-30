@@ -126,6 +126,7 @@ IEEE Student Branch（IEEE 學生分會），名稱依 IEEE 規範另定。
 幹部任期為一學年，可連任一次。
 
 IEEE Student Branch 幹部任期依 IEEE 規範辦理。
+
 ---
 
 ## 第六章　經費
@@ -140,6 +141,7 @@ IEEE Student Branch 幹部任期依 IEEE 規範辦理。
 5. IEEE 補助（如適用）
 
 ### 第十四條（經費管理）
+
 所有收支均須記錄，並於社員大會公開。
 
 ---
