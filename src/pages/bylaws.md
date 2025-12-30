@@ -3,7 +3,7 @@
 ## 第一章　總則
 
 ### 第一條（社團名稱）
-本社團定名為**「IEEE NPU-EGO - 終端防護攻防隊（EndPoint Guardian Ops）」**（以下簡稱本社）。
+本社團定名為**「IEEE NPU-EGO - 國立澎湖科技大學終端防護攻防隊（EndPoint Guardian Ops Student Community at National Penghu University of Science and Technology）」**（以下簡稱本社）。
 
 本社得依實際需要，申請成立或兼營
 IEEE Student Branch（IEEE 學生分會），名稱依 IEEE 規範另定。
