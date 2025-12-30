@@ -151,7 +151,7 @@ const config: Config = {
           ],
         },
       ],
-      copyright: `© ${new Date().getFullYear()} EndPoint Guardian Ops. 保留所有權利。`,
+      copyright: `© ${new Date().getFullYear()} IEEE NPU-EGO. 保留所有權利。`,
     },
     prism: {
       theme: prismThemes.github,
