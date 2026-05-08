@@ -23,7 +23,7 @@ function HomepageHeader() {
           <Link
             className="button button--secondary button--lg"
             to="/join">
-            邀請參加社團成立大會 12/30 17:30~18:30
+            報名：5/12 養龍蝦（Open Claw）教學 17:30
           </Link>
         </div>
       </div>
@@ -81,6 +81,13 @@ function RecentFocus() {
             </div>
             <div className="card__body">
               <ul className={styles.focusList}>
+                <li className={styles.focusItem}>
+                  <div className={styles.focusTag}>活動</div>
+                  <div>
+                    <strong>養龍蝦（Open Claw）教學</strong>
+                    <div className="text--secondary">5/12 17:30 · 網路系統教室 · 報名：/join</div>
+                  </div>
+                </li>
                 <li className={styles.focusItem}>
                   <div className={styles.focusTag}>訓練</div>
                   <div>
