@@ -23,7 +23,7 @@ function HomepageHeader() {
           <Link
             className="button button--secondary button--lg"
             to="/activities">
-            5/12 養龍蝦（Open Claw）教學 17:30（無需報名）
+            5/12 養龍蝦（Open Claw）教學 17:30
           </Link>
         </div>
       </div>
