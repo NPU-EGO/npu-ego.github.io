@@ -22,8 +22,8 @@ function HomepageHeader() {
         <div className={styles.buttons}>
           <Link
             className="button button--secondary button--lg"
-            to="/join">
-            報名：5/12 養龍蝦（Open Claw）教學 17:30
+            to="/activities">
+            5/12 養龍蝦（Open Claw）教學 17:30（無需報名）
           </Link>
         </div>
       </div>
@@ -85,14 +85,14 @@ function RecentFocus() {
                   <div className={styles.focusTag}>活動</div>
                   <div>
                     <strong>養龍蝦（Open Claw）教學</strong>
-                    <div className="text--secondary">5/12 17:30 · 網路系統教室 · 報名：/join</div>
+                    <div className="text--secondary">5/12（週二）17:30 · 網路系統教室 · 現場參加，無需報名，詳見社團活動</div>
                   </div>
                 </li>
                 <li className={styles.focusItem}>
                   <div className={styles.focusTag}>訓練</div>
                   <div>
-                    <strong>CTF 基礎技巧夜讀</strong>
-                    <div className="text--secondary">每週三 19:00 · EB-305</div>
+                    <strong>CTF 基礎技</strong>
+                    <div className="text--secondary">每週二 17:30 ~ 18:30 · 多功能教室</div>
                   </div>
                 </li>
                 <li className={styles.focusItem}>
